@@ -1,0 +1,714 @@
+/**
+ * This file is part of Moodle - http://moodle.org/
+ *
+ * Moodle is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Moodle is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/**
+ * Styles for the Pathway activity sidebar drawer.
+ *
+ * @package   local_pathwaynav
+ * @copyright 2025 Your Company
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
+/* Floating button */
+.lpw-float-btn {
+    position: fixed;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1040;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px 10px 12px;
+    background: var(--pathway-primary, #0d6efd);
+    color: #fff;
+    border: none;
+    border-radius: 0 8px 8px 0;
+    cursor: pointer;
+    box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease, opacity 0.2s ease;
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1;
+}
+
+.lpw-float-btn:hover {
+    background: var(--pathway-primary-hover, #0b5ed7);
+}
+
+.lpw-float-btn:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+}
+
+.lpw-float-btn .icon {
+    margin: 0;
+    font-size: 1rem;
+}
+
+.lpw-float-btn-hidden {
+    transform: translateY(-50%) translateX(-100%);
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Overlay backdrop */
+.lpw-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 1049;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.lpw-overlay-visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Slide-out drawer */
+.lpw-drawer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 320px;
+    max-width: 85vw;
+    z-index: 1050;
+    background: #fff;
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.lpw-drawer-open {
+    transform: translateX(0);
+}
+
+/* Drawer header */
+.lpw-drawer-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 16px 12px;
+    border-bottom: 1px solid #dee2e6;
+    flex-shrink: 0;
+}
+
+.lpw-drawer-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #212529;
+    line-height: 1.3;
+    flex: 1;
+    margin-right: 8px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.lpw-drawer-close {
+    color: #6c757d;
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+}
+
+.lpw-drawer-close:hover {
+    color: #212529;
+    background: #f8f9fa;
+}
+
+.lpw-drawer-close .icon {
+    margin: 0;
+}
+
+/* Overall progress */
+.lpw-progress {
+    padding: 12px 16px;
+    border-bottom: 1px solid #dee2e6;
+    flex-shrink: 0;
+}
+
+.lpw-progress-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #6c757d;
+    font-weight: 600;
+}
+
+.lpw-progress-pct {
+    color: var(--pathway-primary, #0d6efd);
+    font-weight: 700;
+}
+
+.lpw-progress-bar {
+    height: 6px;
+    background: #e9ecef;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.lpw-progress-fill {
+    height: 100%;
+    background: var(--pathway-primary, #0d6efd);
+    border-radius: 3px;
+    transition: width 0.3s ease;
+}
+
+/* Back to section link */
+.lpw-back-link {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 16px;
+    color: var(--pathway-primary, #0d6efd);
+    font-size: 0.85rem;
+    font-weight: 500;
+    text-decoration: none;
+    border-bottom: 1px solid #dee2e6;
+    flex-shrink: 0;
+}
+
+.lpw-back-link:hover {
+    background: #f8f9fa;
+    text-decoration: none;
+    color: var(--pathway-primary-hover, #0b5ed7);
+}
+
+.lpw-back-link .icon {
+    margin: 0;
+    font-size: 0.8rem;
+}
+
+/* Section list */
+.lpw-section-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 8px 0;
+}
+
+.lpw-section-node {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 16px;
+    text-decoration: none;
+    color: #495057;
+    transition: background 0.15s ease;
+    border-left: 3px solid transparent;
+}
+
+.lpw-section-node:hover {
+    background: #f8f9fa;
+    text-decoration: none;
+    color: #212529;
+}
+
+.lpw-section-current {
+    background: rgba(13, 110, 253, 0.06);
+    border-left-color: var(--pathway-primary, #0d6efd);
+    color: #212529;
+    font-weight: 500;
+}
+
+.lpw-section-complete .lpw-section-name {
+    color: #6c757d;
+}
+
+/* Section indicators */
+.lpw-section-indicator {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 0.8rem;
+    font-weight: 600;
+    background: #e9ecef;
+    color: #6c757d;
+}
+
+.lpw-section-current .lpw-section-indicator {
+    background: var(--pathway-primary, #0d6efd);
+    color: #fff;
+}
+
+.lpw-check-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    color: #198754;
+}
+
+.lpw-section-complete .lpw-section-indicator {
+    background: #d1e7dd;
+}
+
+.lpw-check-icon .icon {
+    margin: 0;
+    font-size: 0.75rem;
+}
+
+.lpw-home-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+.lpw-home-icon .icon {
+    margin: 0;
+    font-size: 0.75rem;
+}
+
+.lpw-section-num {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+/* Section info */
+.lpw-section-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.lpw-section-name {
+    display: block;
+    font-size: 0.875rem;
+    line-height: 1.3;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Section progress bars */
+.lpw-section-progress {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 4px;
+}
+
+.lpw-section-progress-bar {
+    flex: 1;
+    height: 4px;
+    background: #e9ecef;
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.lpw-section-progress-fill {
+    height: 100%;
+    border-radius: 2px;
+    transition: width 0.3s ease;
+    background: #dee2e6;
+}
+
+.lpw-progress-complete {
+    background: #198754;
+}
+
+.lpw-progress-partial {
+    background: var(--pathway-primary, #0d6efd);
+}
+
+.lpw-section-progress-text {
+    font-size: 0.7rem;
+    color: #6c757d;
+    white-space: nowrap;
+}
+
+/* Dark mode support */
+[data-bs-theme="dark"] .lpw-drawer {
+    background: #212529;
+}
+
+[data-bs-theme="dark"] .lpw-drawer-header {
+    border-bottom-color: #495057;
+}
+
+[data-bs-theme="dark"] .lpw-drawer-title {
+    color: #f8f9fa;
+}
+
+[data-bs-theme="dark"] .lpw-section-node {
+    color: #adb5bd;
+}
+
+[data-bs-theme="dark"] .lpw-section-node:hover {
+    background: #2c3034;
+    color: #f8f9fa;
+}
+
+[data-bs-theme="dark"] .lpw-section-current {
+    background: rgba(13, 110, 253, 0.15);
+    color: #f8f9fa;
+}
+
+[data-bs-theme="dark"] .lpw-section-indicator {
+    background: #495057;
+    color: #adb5bd;
+}
+
+[data-bs-theme="dark"] .lpw-progress {
+    border-bottom-color: #495057;
+}
+
+[data-bs-theme="dark"] .lpw-back-link {
+    border-bottom-color: #495057;
+}
+
+/* Mobile adjustments */
+@media (max-width: 480px) {
+    .lpw-float-btn-text {
+        display: none;
+    }
+
+    .lpw-float-btn {
+        padding: 10px 12px;
+        border-radius: 0 6px 6px 0;
+    }
+}
+
+/**
+ * This file is part of Moodle - http://moodle.org/
+ *
+ * Moodle is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Moodle is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/**
+ * Styles for the Pathway progress bar.
+ *
+ * @package   local_pathwaybar
+ * @copyright 2025 Your Company
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
+/* Container - sticky bar at top */
+.lpwbar-container {
+    position: fixed;
+    top: 60px;
+    left: 0;
+    right: 0;
+    z-index: 1030;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    padding: 8px 16px;
+    background: #fff;
+    border-bottom: 1px solid #dee2e6;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    transition: transform 0.3s ease;
+}
+
+.lpwbar-hidden {
+    transform: translateY(-100%);
+}
+
+/* Back button */
+.lpwbar-back {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    border-radius: 8px;
+    color: var(--pathway-primary, #0d6efd);
+    text-decoration: none;
+    margin-right: 8px;
+}
+
+.lpwbar-back:hover {
+    background: #f0f4ff;
+    color: var(--pathway-primary-hover, #0b5ed7);
+    text-decoration: none;
+}
+
+.lpwbar-back .icon {
+    margin: 0;
+}
+
+/* Steps navigation - horizontal scrollable */
+.lpwbar-steps {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    overflow-x: auto;
+    overflow-y: hidden;
+    gap: 0;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    scroll-behavior: smooth;
+}
+
+.lpwbar-steps::-webkit-scrollbar {
+    display: none;
+}
+
+/* Individual step */
+.lpwbar-step {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    border-radius: 6px;
+    text-decoration: none;
+    white-space: nowrap;
+    flex-shrink: 0;
+    font-size: 0.8rem;
+    color: #6c757d;
+    transition: background 0.15s ease, color 0.15s ease;
+}
+
+.lpwbar-step:hover {
+    background: #f8f9fa;
+    color: #212529;
+    text-decoration: none;
+}
+
+/* Step states */
+.lpwbar-step-active {
+    background: rgba(13, 110, 253, 0.08);
+    color: var(--pathway-primary, #0d6efd);
+    font-weight: 600;
+}
+
+.lpwbar-step-active:hover {
+    background: rgba(13, 110, 253, 0.12);
+    color: var(--pathway-primary, #0d6efd);
+}
+
+.lpwbar-step-complete {
+    color: #198754;
+}
+
+.lpwbar-step-complete:hover {
+    color: #146c43;
+}
+
+.lpwbar-step-inprogress {
+    color: var(--pathway-primary, #0d6efd);
+}
+
+/* Step dot/indicator */
+.lpwbar-step-dot {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    font-weight: 700;
+    flex-shrink: 0;
+    background: #e9ecef;
+    color: #6c757d;
+    line-height: 1;
+}
+
+.lpwbar-step-active .lpwbar-step-dot {
+    background: var(--pathway-primary, #0d6efd);
+    color: #fff;
+}
+
+.lpwbar-step-complete .lpwbar-step-dot {
+    background: #d1e7dd;
+    color: #198754;
+}
+
+.lpwbar-step-inprogress .lpwbar-step-dot {
+    background: #cfe2ff;
+    color: var(--pathway-primary, #0d6efd);
+}
+
+.lpwbar-step-dot .icon {
+    margin: 0;
+    font-size: 0.65rem;
+}
+
+/* Step label */
+.lpwbar-step-label {
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Connector between steps */
+.lpwbar-connector {
+    width: 16px;
+    height: 2px;
+    background: #dee2e6;
+    flex-shrink: 0;
+}
+
+.lpwbar-connector-done {
+    background: #198754;
+}
+
+/* Hide the last connector (after the last step) */
+.lpwbar-step:last-of-type + .lpwbar-connector {
+    display: none;
+}
+
+/* Overall progress ring */
+.lpwbar-overall {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    margin-left: 12px;
+}
+
+.lpwbar-ring {
+    width: 40px;
+    height: 40px;
+    transform: rotate(-90deg);
+}
+
+.lpwbar-ring-bg {
+    fill: none;
+    stroke: #e9ecef;
+    stroke-width: 3;
+}
+
+.lpwbar-ring-fill {
+    fill: none;
+    stroke: var(--pathway-primary, #0d6efd);
+    stroke-width: 3;
+    stroke-linecap: round;
+    transition: stroke-dasharray 0.5s ease;
+}
+
+.lpwbar-overall-text {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.6rem;
+    font-weight: 700;
+    color: var(--pathway-primary, #0d6efd);
+}
+
+/* Dark mode */
+[data-bs-theme="dark"] .lpwbar-container {
+    background: #212529;
+    border-bottom-color: #495057;
+}
+
+[data-bs-theme="dark"] .lpwbar-step {
+    color: #adb5bd;
+}
+
+[data-bs-theme="dark"] .lpwbar-step:hover {
+    background: #2c3034;
+    color: #f8f9fa;
+}
+
+[data-bs-theme="dark"] .lpwbar-step-active {
+    background: rgba(13, 110, 253, 0.15);
+    color: #6ea8fe;
+}
+
+[data-bs-theme="dark"] .lpwbar-step-dot {
+    background: #495057;
+    color: #adb5bd;
+}
+
+[data-bs-theme="dark"] .lpwbar-connector {
+    background: #495057;
+}
+
+/* Responsive - hide labels on smaller screens */
+@media (max-width: 992px) {
+    .lpwbar-step-label {
+        display: none;
+    }
+
+    .lpwbar-step {
+        padding: 6px 8px;
+        gap: 0;
+    }
+
+    .lpwbar-connector {
+        width: 8px;
+    }
+}
+
+@media (max-width: 576px) {
+    .lpwbar-container {
+        padding: 6px 8px;
+    }
+
+    .lpwbar-step-dot {
+        width: 22px;
+        height: 22px;
+        font-size: 0.65rem;
+    }
+
+    .lpwbar-overall {
+        width: 32px;
+        height: 32px;
+        margin-left: 8px;
+    }
+
+    .lpwbar-ring {
+        width: 32px;
+        height: 32px;
+    }
+
+    .lpwbar-overall-text {
+        font-size: 0.55rem;
+    }
+}

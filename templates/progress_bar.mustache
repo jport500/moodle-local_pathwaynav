@@ -1,0 +1,86 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template local_pathwaynav/progress_bar
+
+    Horizontal course progress/navigation bar for activity pages.
+    Shows clickable section steps with completion status.
+
+    Context variables:
+    * coursename - The course full name
+    * steps - Array of section step data
+    * overallpct - Overall completion percentage
+    * completionenabled - Whether completion tracking is on
+    * hasbacklink - Whether a back-to-section link is available
+    * backtosectionurl - URL to return to current section
+    * backtosectionname - Name of the current section
+}}
+
+<div class="lpwbar-container" id="lpwbar-container">
+
+    {{! Back link }}
+    {{#hasbacklink}}
+    <a href="{{{backtosectionurl}}}" class="lpwbar-back" title="{{#str}}backtosection, local_pathwaynav, {{backtosectionname}}{{/str}}">
+        <i class="icon fa fa-arrow-left fa-fw" aria-hidden="true"></i>
+    </a>
+    {{/hasbacklink}}
+
+    {{! Step navigation }}
+    <nav class="lpwbar-steps" aria-label="{{#str}}coursenavigation, local_pathwaynav{{/str}}">
+        {{#steps}}
+        <a href="{{{url}}}"
+           class="lpwbar-step lpwbar-step-{{status}} {{#iscurrent}}lpwbar-step-active{{/iscurrent}}"
+           title="{{name}}{{#hastrackeditems}} ({{completedcount}}/{{totalcount}}){{/hastrackeditems}}"
+           {{#iscurrent}}aria-current="step"{{/iscurrent}}
+           data-step-name="{{name}}"
+           data-step-progress="{{#hastrackeditems}}{{completedcount}}/{{totalcount}}{{/hastrackeditems}}">
+
+            {{! Step indicator }}
+            <span class="lpwbar-step-dot">
+                {{#iscomplete}}
+                    <i class="icon fa fa-check fa-fw" aria-hidden="true"></i>
+                {{/iscomplete}}
+                {{^iscomplete}}
+                    {{#issection0}}
+                        <i class="icon fa fa-home fa-fw" aria-hidden="true"></i>
+                    {{/issection0}}
+                    {{^issection0}}
+                        {{num}}
+                    {{/issection0}}
+                {{/iscomplete}}
+            </span>
+
+            {{! Step label (visible on larger screens) }}
+            <span class="lpwbar-step-label">{{shortname}}</span>
+        </a>
+
+        {{! Connector between steps }}
+        <div class="lpwbar-connector {{#iscomplete}}lpwbar-connector-done{{/iscomplete}}"></div>
+        {{/steps}}
+    </nav>
+
+    {{! Overall progress indicator }}
+    {{#completionenabled}}
+    <div class="lpwbar-overall" title="{{#str}}overallprogress, local_pathwaynav{{/str}}: {{overallpct}}%">
+        <svg class="lpwbar-ring" viewBox="0 0 36 36">
+            <path class="lpwbar-ring-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+            <path class="lpwbar-ring-fill" stroke-dasharray="{{overallpct}}, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+        </svg>
+        <span class="lpwbar-overall-text">{{overallpct}}%</span>
+    </div>
+    {{/completionenabled}}
+</div>

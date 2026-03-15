@@ -1,0 +1,127 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template local_pathwaynav/activity_sidebar
+
+    Floating course menu button and slide-out drawer for activity pages.
+    Provides course navigation when viewing activities within a Pathway course.
+
+    Context variables:
+    * coursename - The course full name
+    * sections - Array of section data with progress
+    * showprogress - Whether to show progress bars
+    * completionenabled - Whether completion tracking is on
+    * overallpct - Overall completion percentage
+    * hasbacklink - Whether a back-to-section link is available
+    * backtosectionurl - URL to return to current section
+    * backtosectionname - Name of the current section
+}}
+
+{{! Overlay backdrop }}
+<div class="lpw-overlay" id="lpw-overlay"></div>
+
+{{! Floating button }}
+<button class="lpw-float-btn" id="lpw-float-btn"
+        aria-label="{{#str}}coursemenu, local_pathwaynav{{/str}}"
+        title="{{#str}}coursemenu, local_pathwaynav{{/str}}">
+    <i class="icon fa fa-bars fa-fw" aria-hidden="true"></i>
+    <span class="lpw-float-btn-text">{{#str}}coursemenu, local_pathwaynav{{/str}}</span>
+</button>
+
+{{! Slide-out drawer }}
+<div class="lpw-drawer" id="lpw-drawer" aria-hidden="true" role="navigation"
+     aria-label="{{#str}}coursemenu, local_pathwaynav{{/str}}">
+
+    {{! Drawer header }}
+    <div class="lpw-drawer-header">
+        <div class="lpw-drawer-title">{{coursename}}</div>
+        <button class="lpw-drawer-close btn btn-link p-0" id="lpw-drawer-close"
+                aria-label="{{#str}}closemenu, local_pathwaynav{{/str}}">
+            <i class="icon fa fa-times fa-fw" aria-hidden="true"></i>
+        </button>
+    </div>
+
+    {{! Overall progress }}
+    {{#showprogress}}
+    {{#completionenabled}}
+    <div class="lpw-progress">
+        <div class="lpw-progress-label">
+            <span>{{#str}}overallprogress, local_pathwaynav{{/str}}</span>
+            <span class="lpw-progress-pct">{{overallpct}}%</span>
+        </div>
+        <div class="lpw-progress-bar" role="progressbar"
+             aria-valuenow="{{overallpct}}" aria-valuemin="0" aria-valuemax="100">
+            <div class="lpw-progress-fill" style="width: {{overallpct}}%"></div>
+        </div>
+    </div>
+    {{/completionenabled}}
+    {{/showprogress}}
+
+    {{! Back to section link }}
+    {{#hasbacklink}}
+    <a href="{{{backtosectionurl}}}" class="lpw-back-link">
+        <i class="icon fa fa-arrow-left fa-fw" aria-hidden="true"></i>
+        <span>{{#str}}backtosection, local_pathwaynav, {{backtosectionname}}{{/str}}</span>
+    </a>
+    {{/hasbacklink}}
+
+    {{! Section list }}
+    <nav class="lpw-section-list" aria-label="{{#str}}coursemenu, local_pathwaynav{{/str}}">
+        {{#sections}}
+        <a href="{{{url}}}"
+           class="lpw-section-node {{#iscurrent}}lpw-section-current{{/iscurrent}} {{#iscomplete}}lpw-section-complete{{/iscomplete}} {{#isinprogress}}lpw-section-inprogress{{/isinprogress}}"
+           {{#iscurrent}}aria-current="true"{{/iscurrent}}>
+
+            <div class="lpw-section-indicator">
+                {{#iscomplete}}
+                    <span class="lpw-check-icon">
+                        <i class="icon fa fa-check fa-fw" aria-hidden="true"></i>
+                    </span>
+                {{/iscomplete}}
+                {{^iscomplete}}
+                    {{#issection0}}
+                        <span class="lpw-home-icon">
+                            <i class="icon fa fa-home fa-fw" aria-hidden="true"></i>
+                        </span>
+                    {{/issection0}}
+                    {{^issection0}}
+                        <span class="lpw-section-num">{{num}}</span>
+                    {{/issection0}}
+                {{/iscomplete}}
+            </div>
+
+            <div class="lpw-section-info">
+                <span class="lpw-section-name">{{name}}</span>
+                {{#showprogress}}
+                {{#hastrackeditems}}
+                <div class="lpw-section-progress">
+                    <div class="lpw-section-progress-bar" role="progressbar"
+                         aria-valuenow="{{progresspct}}" aria-valuemin="0" aria-valuemax="100">
+                        <div class="lpw-section-progress-fill
+                                    {{#iscomplete}}lpw-progress-complete{{/iscomplete}}
+                                    {{#isinprogress}}lpw-progress-partial{{/isinprogress}}"
+                             style="width: {{progresspct}}%"></div>
+                    </div>
+                    <span class="lpw-section-progress-text">{{completedcount}}/{{totalcount}}</span>
+                </div>
+                {{/hastrackeditems}}
+                {{/showprogress}}
+            </div>
+        </a>
+        {{/sections}}
+    </nav>
+</div>
